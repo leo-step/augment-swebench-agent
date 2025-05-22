@@ -251,14 +251,16 @@ def main():
     all_diff_data = []
 
     # get workspace base dir
-    workspace_base_path = Path(f"/tmp/workspace/{uuid.uuid4().hex[:8]}").resolve()
+    # workspace_base_path = Path(f"/tmp/workspace/{uuid.uuid4().hex[:8]}").resolve()
+    workspace_base_path = Path(__file__).parent.resolve() / "workspace" / f"{uuid.uuid4().hex[:8]}"
+    workspace_base_path.mkdir(parents=True, exist_ok=True)
     console.print(f"Workspace base path: {workspace_base_path}")
 
     output_path = f"pre-ensemble_results_shard{args.shard_id}_of_{args.shard_ct}.jsonl"
 
     # Iterate over the specified number of examples
     for i in range(num_examples):
-        try:
+        # try:
             problem = examples.iloc[i]
             problem_id = problem["instance_id"]
             problem_statement = problem["problem_statement"]
@@ -300,9 +302,9 @@ def main():
                         f.write(json.dumps(diff_data) + "\n")
 
                 console.print(f"Completed example {i + 1}/{num_examples}")
-        except Exception as e:
-            console.print(f"Error processing example {i + 1}: {str(e)}")
-            continue
+        # except Exception as e:
+        #     console.print(f"Error processing example {i + 1}: {str(e)}")
+        #     continue
 
     all_durations = [d["median_duration"] for d in all_diff_data]
     # print out latencies at 25perc, min, max 75perc

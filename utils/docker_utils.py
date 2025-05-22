@@ -36,7 +36,7 @@ def set_volume_permissions(container_id, volume_path: Path):
         )
     except subprocess.CalledProcessError as e:
         logging.warning(f"Failed to chmod {volume_path}: {e}")
-        raise
+        # raise
     # Change the owner to the current user
     try:
         container_out = subprocess.check_output(
@@ -54,7 +54,7 @@ def set_volume_permissions(container_id, volume_path: Path):
         logging.debug(container_out)
     except subprocess.CalledProcessError as e:
         logging.warning(f"Failed to chown {volume_path}: {e}")
-        raise
+        # raise
 
 
 def start_container(workspace: Path, problem_id: str, semaphore: Any) -> str:
